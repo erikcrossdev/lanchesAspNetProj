@@ -16,7 +16,7 @@ namespace LanchesProj.Models
 
         [StringLength(200, ErrorMessage = "O tamanho máximo de caracteres é 200")] //define o tamanho máximo do campo
         [Required(ErrorMessage = "Informe o nome da categoria")]
-        [Display(Name = "Nome")] //define o nome do campo que se
+        [Display(Name = "Descrição")] //define o nome do campo que se
         public string Descricao { get; set; }
         //Propriedade de navegação para ideintificar a relação entre as entidades Categoria e Lanche, ou seja, uma categoria pode ter vários lanches
         public List<Lanche> Lanches { get; set; } //propriedade de navegação para os lanches
