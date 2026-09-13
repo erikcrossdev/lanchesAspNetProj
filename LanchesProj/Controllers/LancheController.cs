@@ -15,7 +15,14 @@ namespace LanchesProj.Controllers
 
         public IActionResult List()
         {
+            ViewData["Titulo"] = "Todos os Lanches";
+            ViewData["Data"] = DateTime.Now;
             var lanches = lancheRepository.Lanches;
+
+            var totalLanches = lanches.Count();
+            ViewBag.Total = "Total Lanches: ";
+            ViewBag.TotalLanches = totalLanches;
+
             return View(lanches);
         }
     }

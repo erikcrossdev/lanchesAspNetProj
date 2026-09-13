@@ -9,6 +9,7 @@ public class HomeController : Controller
   
     public IActionResult Index()
     {
+        TempData["Mensagem"] = "Veio do HomeController!";
         return View();
     }
 
