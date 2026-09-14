@@ -3,23 +3,28 @@
 	<div>
 		<h2>@ViewData["Titulo"]</h2>
 	</div>
-<h2>@ViewData["Data"]</h2>
-<hr />
 
-<h3>@ViewBag.Total @ViewBag.TotalLanches</h3>
-<hr />
-@if (TempData.ContainsKey("Mensagem"))
-{
-	<p>@TempData["Mensagem"]</p>
-}
+	<!--h2>@ViewData["Data"]</h2>-->
+	<hr />
 
-
-	@foreach(var lanche in Model)
+	<p>@ViewBag.Total @ViewBag.TotalLanches</p>
+	<hr />
+	@if (TempData.ContainsKey("Mensagem"))
 	{
-		<div>
-			<h4>@lanche.Nome</h4>
-			<p><img src="@lanche.ImagemUrl" /></p>
-			<p>@lanche.DescricaoCurta</p>
-			<h3>Preço: @lanche.Preco.ToString("C")</h3>
-		</div>
+		//<p>@TempData["Mensagem"]</p>
 	}
+
+	<div class="container">
+		<div class="row">
+		@foreach(var lanche in Model)
+		{
+		//img-luid deixa a imagem mais fluída
+			<div class="col-sm-4 col-md-4 col-lg-4">
+				<p><img src="@lanche.ImagemUrl" class="img-fluid"/></p> 
+				<h4>@lanche.Nome</h4>
+				<h3>Preço: @lanche.Preco.ToString("C")</h3>
+				<p>Descrição: <br />@lanche.DescricaoCurta</p>
+			</div>
+		}
+	</div>
+</div>
