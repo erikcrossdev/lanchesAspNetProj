@@ -1,7 +1,7 @@
-@model IEnumerable<LanchesProj.Models.Lanche>
+@model LancheListViewModel;
 
 	<div>
-		<h2>@ViewData["Titulo"]</h2>
+		<h2>@Model.CategoriaAtual</h2>
 	</div>
 
 	<!--h2>@ViewData["Data"]</h2>-->
@@ -16,7 +16,7 @@
 
 	<div class="container">
 		<div class="row">
-		@foreach(var lanche in Model)
+		@foreach(var lanche in Model.Lanches)
 		{
 		//img-luid deixa a imagem mais fluída
 			<div class="col-sm-4 col-md-4 col-lg-4">

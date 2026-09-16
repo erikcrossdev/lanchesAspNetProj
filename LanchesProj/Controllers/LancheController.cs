@@ -15,15 +15,21 @@ namespace LanchesProj.Controllers
 
         public IActionResult List()
         {
-            ViewData["Titulo"] = "Todos os Lanches";
-            ViewData["Data"] = DateTime.Now;
-            var lanches = lancheRepository.Lanches;
+          
 
-            var totalLanches = lanches.Count();
-            ViewBag.Total = "Total Lanches: ";
-            ViewBag.TotalLanches = totalLanches;
+            var lanchesListViewModel = new ViewModels.LancheListViewModel();
+            lanchesListViewModel.Lanches = lancheRepository.Lanches;
+            lanchesListViewModel.CategoriaAtual = "Categoria Atual"; //deixe assim no momento
 
-            return View(lanches);
+			ViewData["Titulo"] = "Todos os Lanches";
+			ViewData["Data"] = DateTime.Now;
+		
+			var totalLanches = lanchesListViewModel.Lanches.Count();
+			ViewBag.Total = "Total Lanches: ";
+			ViewBag.TotalLanches = totalLanches;
+			
+
+			return View(lanchesListViewModel);
         }
     }
 }
