@@ -14,5 +14,7 @@ namespace LanchesProj.Context
         //Define classes mapeadas para tabelas no banco de dados
         public DbSet<Lanche> Lanches { get; set; } //representa a tabela Lanches no banco de dados
         public DbSet<Categoria> Categorias { get; set; } //representa a tabela Categorias no banco de dados
+
+        public DbSet<CarrinhoCompraItem> CarrinhoCompraItens { get; set; } //representa a tabela CarrinhoCompraItens no banco de dados
     }
 }
