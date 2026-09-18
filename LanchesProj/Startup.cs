@@ -21,8 +21,13 @@ public class Startup
 
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //Singleton tem o livetime em toda aplicação. Usa o httpcontext 
 
         services.AddControllersWithViews();
+
+        services.AddMemoryCache();// Adiciona suporte a cache em memória
+        services.AddSession();// Adiciona suporte a sessão
+
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +47,8 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
+
+        app.UseSession();  // Adiciona suporte a sessão
 
         app.UseAuthorization();
 
