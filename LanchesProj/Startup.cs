@@ -1,4 +1,5 @@
 ﻿using LanchesProj.Context;
+using LanchesProj.Models;
 using LanchesProj.Repositories;
 using LanchesProj.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ public class Startup
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //Singleton tem o livetime em toda aplicação. Usa o httpcontext 
+        services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp)); //Scoped tem o livetime em toda requisição. Usa o carrinho de compras
 
         services.AddControllersWithViews();
 
