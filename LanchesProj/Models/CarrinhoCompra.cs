@@ -15,6 +15,8 @@ namespace LanchesProj.Models
 		public string CarrinhoCompraId { get; set; }
 
 		public List<CarrinhoCompraItem> CarrinhoCompraItens { get; set; }
+
+		//é estático para poder ser usada a instancia estaticamente no services do startup
 		public static CarrinhoCompra GetCarrinho(IServiceProvider services) { 
 			//Definie uma session
 			ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
