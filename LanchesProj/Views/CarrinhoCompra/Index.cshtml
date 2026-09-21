@@ -1,0 +1,63 @@
+﻿@model CarrinhoCompraViewModel
+
+<div class="Container">
+<div class="row">
+	<img src="~/images/Full-Cart-icon.png" />
+	<div> 
+		<h4> Seu carrinho de compras: </h4>
+	</div>
+
+	<table class="table table-bordered table-striped"> <!-- essas classes são recursos do bootstrap-->
+
+		<thead> <!-- cabeçalho/header de uma tabela -->
+			<tr>
+				<th>Quantidade</th> <!-- elemento do header -->
+				<th>Lanche</th>
+				<th class="text-right">Preço</th>
+				<th class="text-right"> Subtotal</th>
+			</tr>
+		</thead>
+
+		<tbody> <!--Representa o corpo de uma table-->
+				@foreach (var item in Model.CarrinhoCompra.CarrinhoCompraItens) // usa o razor para percorrer os itens
+				{
+					<tr>
+						<td class="text-center">@item.Quantidade</td>
+						<td class="text-left">@item.Lanche.Nome</td>
+						<td class="text-right">@item.Lanche.Preco.ToString("c")</td> <!-- c significa a moeda local do seu sistema-->
+						<td class="text-right">@((item.Lanche.Preco * item.Quantidade).ToString("c"))</td>
+						<!-- usa o Controlller, uma action e uma route para deletar o lanche: recurso do bootstrap-->
+						<td class="text-center">
+							<a asp-controller="CarrinhoCompra" asp-action="RemoverItemNoCarrinhoCompra" asp-route-lancheId="@item.Lanche.LancheId">
+								<img src="~/images/delete.png" />
+							</a>
+						</td>
+					</tr>
+				}			
+
+		</tbody>
+			
+		<tfoot> <!--footer da table-->
+			<tr>
+					<td colspan="3" class="text-right"><strong>Total: </strong></td> <!--Colspan = 3 - ocupa três colunas da tabela-->
+					<td class="text-right">
+						@Model.CarrinhoCompraTotal.ToString("c")
+					</td>
+
+			</tr>
+
+		</tfoot>
+
+	</table>
+
+	<div class="text-right">
+		<div class="btn-group">
+			<a class="btn btn-success" asp-controller="Pedido" asp-action="Checkout">Finalizar Pedido</a> 
+				&nbsp;&nbsp;&nbsp; <!-- non-breaking space- e serve para inserir um espaço em branco que não permite a quebra de linha entre duas palavras.-->
+			<a class="btn btnbg-primary" asp-controller="Lanche" asp-action="List">Continuar Comprando</a>
+		</div>
+	</div>
+	<br	/>
+
+</div>
+</div>
