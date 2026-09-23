@@ -1,33 +1,50 @@
-﻿using LanchesProj.Repositories;
+﻿using LanchesProj.Models;
+using LanchesProj.Repositories;
 using LanchesProj.Repositories.Interfaces;
+using LanchesProj.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LanchesProj.Controllers
 {
     public class LancheController : Controller
     {
-        private readonly ILancheRepository lancheRepository; //usa a instancia
+        private readonly ILancheRepository _lancheRepository; //usa a instancia
 
         public LancheController(ILancheRepository lancheRepository) //usar a dependecy injection
         {
-            this.lancheRepository = lancheRepository;
+            this._lancheRepository = lancheRepository;
         }
 
-        public IActionResult List()
+        public IActionResult List(string categoria)
         {
-          
-
-            var lanchesListViewModel = new ViewModels.LancheListViewModel();
-            lanchesListViewModel.Lanches = lancheRepository.Lanches;
-            lanchesListViewModel.CategoriaAtual = "Categoria Atual"; //deixe assim no momento
-
-			ViewData["Titulo"] = "Todos os Lanches";
-			ViewData["Data"] = DateTime.Now;
-		
-			var totalLanches = lanchesListViewModel.Lanches.Count();
-			ViewBag.Total = "Total Lanches: ";
-			ViewBag.TotalLanches = totalLanches;
+            IEnumerable<Lanche> lanches;
+            string categoriaAtual = string.Empty;
+            
+            if(string.IsNullOrEmpty(categoria))
+			{
+				lanches = _lancheRepository.Lanches.OrderBy(l => l.LancheId);
+				categoriaAtual = "Todos os Lanches";
+			}
+			else
+			{
+                //vamos mudar isso para pegar qualquer categoria
+                if (string.Equals("Normal", categoria, StringComparison.OrdinalIgnoreCase)){
+                    lanches = _lancheRepository.Lanches
+                        .Where(l => l.Categoria.CategoriaNome.Equals("Normal"))
+                        .OrderBy(l => l.Nome);
+                }
+                else {
+					lanches = _lancheRepository.Lanches
+						.Where(l => l.Categoria.CategoriaNome.Equals("Vegetariano"))
+						.OrderBy(l => l.Nome);
+				}
+			}
 			
+            var lanchesListViewModel = new LancheListViewModel
+			{
+				Lanches = lanches,
+				CategoriaAtual = categoriaAtual
+			};
 
 			return View(lanchesListViewModel);
         }
