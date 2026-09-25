@@ -4,10 +4,11 @@
 {
 	//vai ser mostrado na barra de navegação
 	<a asp-controller="CarrinhoCompra" asp-action="Index">
-		<span><img src="~/images/cart.png" height="35" /></span>
+		<span><img src="~/images/cart-white.png" height="35" /></span>
 		<span style="color:white">
 			@Model.CarrinhoCompra.CarrinhoCompraItens.Count
 		</span>
+		&nbsp;
 	</a>
 
 }
