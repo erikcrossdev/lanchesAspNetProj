@@ -16,5 +16,8 @@ namespace LanchesProj.Context
         public DbSet<Categoria> Categorias { get; set; } //representa a tabela Categorias no banco de dados
 
         public DbSet<CarrinhoCompraItem> CarrinhoCompraItens { get; set; } //representa a tabela CarrinhoCompraItens no banco de dados
+
+        public DbSet<Pedido> Pedidos { get; set; } //representa a tabela Pedidos no banco de dados
+        public DbSet<PedidoDetalhe> PedidoDetalhes { get; set; } //representa a tabela PedidoDetalhes no banco de dados
     }
 }
