@@ -22,6 +22,7 @@ public class Startup
 
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+        services.AddTransient<IPedidoRepository, PedidoRepository>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //Singleton tem o livetime em toda aplicação. Usa o httpcontext 
         services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp)); //Scoped tem o livetime em toda requisição. Usa o carrinho de compras
 
