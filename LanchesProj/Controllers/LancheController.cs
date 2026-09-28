@@ -47,5 +47,30 @@ namespace LanchesProj.Controllers
 			var lanche = _lancheRepository.Lanches.FirstOrDefault(element => element.LancheId == lancheId);
             return View(lanche);
 		}
+
+        public ViewResult Search(string searchString) { //O parametro DEVE se chamar searchString para bater com o form
+            IEnumerable<Lanche> lanches;
+            string categoriaAtual = string.Empty;
+
+            if (string.IsNullOrEmpty(searchString))
+            {
+                lanches = _lancheRepository.Lanches.OrderBy(p => p.LancheId);
+                categoriaAtual = "Todos os lanches";
+            }
+            else {
+                lanches = _lancheRepository.Lanches.Where(l => l.Nome.ToLower().Contains(searchString.ToLower()));
+                if(lanches.Any()) {
+					categoriaAtual = "Lanches";
+				} else {
+					categoriaAtual = "Nenhum lanche foi encontrado";
+				}
+            }
+
+            //Adiciona na view list para mostrar o lanche
+            return View("~/Views/Lanche/List.cshtml", new LancheListViewModel {
+				Lanches = lanches,
+				CategoriaAtual = categoriaAtual
+			});
+        }
     }
 }
