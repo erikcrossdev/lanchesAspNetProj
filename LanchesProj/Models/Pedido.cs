@@ -29,10 +29,10 @@ namespace LanchesProj.Models
 		[Display(Name = "CEP")]
 		public string Cep { get; set; }
 
-		[StringLength(10, MinimumLength = 8)]
+		[StringLength(80, MinimumLength = 2)]
 		public string Estado { get; set; }
 
-		[StringLength(50, MinimumLength = 8)]
+		[StringLength(50, MinimumLength = 3)]
 		public string Cidade { get; set; }
 
 		[Required(ErrorMessage = "Informe o telefone")]
@@ -65,7 +65,7 @@ namespace LanchesProj.Models
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
 		public DateTime? PedidoEntregueEm { get; set; }
 
-		public List<PedidoDetalhe> PedidoDetalhes { get; set; }
+		public List<PedidoDetalhe> PedidoItens { get; set; }
 
 
 	}
