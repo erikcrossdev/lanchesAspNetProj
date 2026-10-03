@@ -1,9 +1,12 @@
 ﻿using LanchesProj.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 
 namespace LanchesProj.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         //Carrega informações de opções de configurações 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base (options)
