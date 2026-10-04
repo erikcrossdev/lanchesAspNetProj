@@ -48,5 +48,29 @@ namespace LanchesProj.Controllers
 			return View(model);
 		}
 
+		//metodo get
+		public IActionResult Register() {
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Register(LoginViewModel model) {
+			if (ModelState.IsValid) {
+				var user = new IdentityUser { UserName = model.Username };
+				var result = await _userManager.CreateAsync(user, model.Password);
+
+				if (result.Succeeded)
+				{
+					//await _signInManager.SignInAsync(user, isPersistent: false); //podemos tentar fazer o sign in também
+					return RedirectToAction("Login", "Account");
+				}
+				else {
+					this.ModelState.AddModelError("Registro", "Falha ao registrar usuário");
+				}
+			}
+			return View(model);
+		}
+
 	}
 }
