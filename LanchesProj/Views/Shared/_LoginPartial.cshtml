@@ -1,0 +1,22 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+	<form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm" method="post" class="navbar-left" onsubmit="return confirm('Tem certeza que deseja sair?');"> <!-- adiciona código javascript para confirmar se o usuário quer deslogar com um alert-->
+		<ul class="nav navbar-nav navbar-left">
+			@Html.AntiForgeryToken()
+			<button type="submit" style="width:auto" class="nav-link btn btn-link py-0">
+				Logout : @User.Identity.Name &nbsp;
+			</button>
+		</ul>
+	</form>
+}
+else
+{
+	<ul class="nav navbar-nav navbar-left">
+		<a class="nav-link text-light" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@string.Format("{0}{1}", Context.Request.Path, Context.Request.QueryString)" style="color:white">&nbsp; Log in &nbsp;</a> <!-- pega o retorno da url-->
+		<a class="nav-link text-light" asp-controller="Account" asp-action="Register" style="color:white">&nbsp; Cadastrar &nbsp;&nbsp;&nbsp;</a>
+
+	</ul>
+}
