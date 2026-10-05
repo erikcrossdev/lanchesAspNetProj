@@ -32,7 +32,7 @@ namespace LanchesProj.Controllers
 			}
 			var user = await _userManager.FindByNameAsync(model.Username);
 
-			if (user == null)
+			if (user != null)
 			{
 				var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);//não persiste o cookie e não bloqueia ao falhar
 				if (result.Succeeded)
@@ -50,6 +50,7 @@ namespace LanchesProj.Controllers
 
 		//metodo get
 		public IActionResult Register() {
+
 			return View();
 		}
 
@@ -60,13 +61,21 @@ namespace LanchesProj.Controllers
 				var user = new IdentityUser { UserName = model.Username };
 				var result = await _userManager.CreateAsync(user, model.Password);
 
-				if (result.Succeeded)
+				if (model.Password != model.ConfirmPassword)
 				{
-					//await _signInManager.SignInAsync(user, isPersistent: false); //podemos tentar fazer o sign in também
-					return RedirectToAction("Login", "Account");
+					this.ModelState.AddModelError("Registro", "A senha não bate com a confirmação");
 				}
-				else {
-					this.ModelState.AddModelError("Registro", "Falha ao registrar usuário");
+				else
+				{
+					if (result.Succeeded)
+					{
+						//await _signInManager.SignInAsync(user, isPersistent: false); //podemos tentar fazer o sign in também
+						return RedirectToAction("Login", "Account");
+					}
+					else
+					{
+						this.ModelState.AddModelError("Registro", "Falha ao registrar usuário");
+					}
 				}
 			}
 			return View(model);
