@@ -8,78 +8,86 @@ using Microsoft.EntityFrameworkCore;
 namespace LanchesProj;
 public class Startup
 {
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
+	public Startup(IConfiguration configuration)
+	{
+		Configuration = configuration;
+	}
 
-    public IConfiguration Configuration { get; }
+	public IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
-    {
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+	// This method gets called by the runtime. Use this method to add services to the container.
+	public void ConfigureServices(IServiceCollection services)
+	{
+		services.AddDbContext<AppDbContext>(options =>
+			options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();//para usar login
+		services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();//para usar login
 
-        //Importante, Usar valores mais rigidos em prod
-        services.Configure<IdentityOptions>(options => {
-            options.Password.RequireDigit = true;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequiredLength = 6;
-            options.Password.RequiredUniqueChars = 1;
-        });
+		//Importante, Usar valores mais rigidos em prod
+		services.Configure<IdentityOptions>(options =>
+		{
+			options.Password.RequireDigit = true;
+			options.Password.RequireLowercase = true;
+			options.Password.RequireUppercase = false;
+			options.Password.RequireNonAlphanumeric = false;
+			options.Password.RequiredLength = 6;
+			options.Password.RequiredUniqueChars = 1;
+		});
 
-        services.AddTransient<ILancheRepository, LancheRepository>();
-        services.AddTransient<ICategoriaRepository, CategoriaRepository>();
-        services.AddTransient<IPedidoRepository, PedidoRepository>();
-        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //Singleton tem o livetime em toda aplicação. Usa o httpcontext 
-        services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp)); //Scoped tem o livetime em toda requisição. Usa o carrinho de compras
+		services.AddTransient<ILancheRepository, LancheRepository>();
+		services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+		services.AddTransient<IPedidoRepository, PedidoRepository>();
+		services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //Singleton tem o livetime em toda aplicação. Usa o httpcontext 
+		services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp)); //Scoped tem o livetime em toda requisição. Usa o carrinho de compras
 
-        services.AddControllersWithViews();
+		services.AddControllersWithViews();
 
-        services.AddMemoryCache();// Adiciona suporte a cache em memória
-        services.AddSession();// Adiciona suporte a sessão
+		services.AddMemoryCache();// Adiciona suporte a cache em memória
+		services.AddSession();// Adiciona suporte a sessão
 
-    }
+	}
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            app.UseExceptionHandler("/Home/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts();
-        }
-        app.UseHttpsRedirection();
-        app.UseStaticFiles();
+	// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+	{
+		if (env.IsDevelopment())
+		{
+			app.UseDeveloperExceptionPage();
+		}
+		else
+		{
+			app.UseExceptionHandler("/Home/Error");
+			// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+			app.UseHsts();
+		}
+		app.UseHttpsRedirection();
+		app.UseStaticFiles();
 
-        app.UseRouting();
+		app.UseRouting();
 
-        app.UseSession();  // Adiciona suporte a sessão
+		app.UseSession();  // Adiciona suporte a sessão
 
-        app.UseAuthentication();
-        app.UseAuthorization();
+		app.UseAuthentication();
+		app.UseAuthorization();
 
-        app.UseEndpoints(endpoints =>
-        {
+		app.UseEndpoints(endpoints =>
+		{
 			endpoints.MapControllerRoute(
 				name: "categoriaFiltro",
 				pattern: "Lanche/{action}/{categoria}",
-                defaults: new { Controller = "Lanche", action = "List" });
+				defaults: new { Controller = "Lanche", action = "List" });
 
 			endpoints.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+				name: "default",
+				pattern: "{controller=Home}/{action=Index}/{id?}");
 
-        });
-    }
+			endpoints.MapControllerRoute(
+			  name: "areas",
+			  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+			);
+
+
+
+		});
+	}
 }
