@@ -1,5 +1,6 @@
 ﻿using LanchesProj.Models;
 using LanchesProj.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LanchesProj.Controllers
@@ -15,6 +16,7 @@ namespace LanchesProj.Controllers
 			_carrinhoCompra = carrinhoCompra;
 		}
 
+		[Authorize] //só para users logados
 		[HttpGet]
 		public IActionResult Checkout()
 		{

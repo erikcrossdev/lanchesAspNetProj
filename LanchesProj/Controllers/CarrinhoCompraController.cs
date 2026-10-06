@@ -1,5 +1,6 @@
 ﻿using LanchesProj.Models;
 using LanchesProj.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LanchesProj.Controllers
@@ -30,6 +31,7 @@ namespace LanchesProj.Controllers
 			return View(carrinhoCompraVM); //vai mostrar o carrinho de compras
 		}
 
+		[Authorize]
 		//redirect to action é usado para redirecionar para outra action do mesmo controller ou de outro controller. Ele herda de action result
 		public RedirectToActionResult AdicionarItemNoCarrinhoCompra(int lancheId) {
 			var lancheSelecionado = _lancheRepository.Lanches.FirstOrDefault(lanche => lanche.LancheId == lancheId);
@@ -39,6 +41,7 @@ namespace LanchesProj.Controllers
 			return RedirectToAction("Index");
 		}
 
+		[Authorize]
 		public IActionResult RemoverItemNoCarrinhoCompra(int lancheId)
 		{
 			var lancheSelecionado = _lancheRepository.Lanches.FirstOrDefault(lanche => lanche.LancheId == lancheId);
