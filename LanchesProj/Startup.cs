@@ -2,6 +2,7 @@
 using LanchesProj.Models;
 using LanchesProj.Repositories;
 using LanchesProj.Repositories.Interfaces;
+using LanchesProj.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +39,9 @@ public class Startup
 		services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 		services.AddTransient<IPedidoRepository, PedidoRepository>();
 		services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //Singleton tem o livetime em toda aplicação. Usa o httpcontext 
+
+		services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+
 		services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp)); //Scoped tem o livetime em toda requisição. Usa o carrinho de compras
 
 		services.AddControllersWithViews();
@@ -48,7 +52,7 @@ public class Startup
 	}
 
 	// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+	public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISeedUserRoleInitial seedUserRoleInitial)
 	{
 		if (env.IsDevelopment())
 		{
@@ -64,6 +68,9 @@ public class Startup
 		app.UseStaticFiles();
 
 		app.UseRouting();
+
+		seedUserRoleInitial.SeedRoles();//cria perfis, tipos de users
+		seedUserRoleInitial.SeedUsers();//cria dois users default
 
 		app.UseSession();  // Adiciona suporte a sessão
 

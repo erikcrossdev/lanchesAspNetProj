@@ -69,8 +69,12 @@ namespace LanchesProj.Controllers
 				{
 					if (result.Succeeded)
 					{
-						//await _signInManager.SignInAsync(user, isPersistent: false); //podemos tentar fazer o sign in também
-						return RedirectToAction("Login", "Account");
+						await _userManager.AddToRoleAsync(user,"Member");
+						// Faz o login automaticamente
+						await _signInManager.SignInAsync(user, isPersistent: false);
+
+						// Redireciona para onde quiser (Home, Dashboard, etc.)
+						return RedirectToAction("Index", "Home");
 					}
 					else
 					{
