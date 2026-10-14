@@ -91,14 +91,12 @@ public class Startup
 				defaults: new { Controller = "Lanche", action = "List" });
 
 			endpoints.MapControllerRoute(
-				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
+				name: "areas",
+				pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
 			endpoints.MapControllerRoute(
-			  name: "areas",
-			  pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}"
-			);
-
+				name: "default",
+				pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 		});
