@@ -42,6 +42,12 @@ public class Startup
 
 		services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
+		services.AddAuthorization( options => {
+			options.AddPolicy("Admin", politica => {
+				politica.RequireRole("Admin"); 
+			});
+		});
+
 		services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp)); //Scoped tem o livetime em toda requisição. Usa o carrinho de compras
 
 		services.AddControllersWithViews();

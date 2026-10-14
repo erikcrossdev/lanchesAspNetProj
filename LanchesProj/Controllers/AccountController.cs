@@ -18,14 +18,16 @@ namespace LanchesProj.Controllers
 		//igual ao HttpGet 
 		public IActionResult Login(string returnUrl = null)
 		{
-			return View(new LoginViewModel() { 
-				ReturnUrl = returnUrl 
+			return View(new LoginViewModel()
+			{
+				ReturnUrl = returnUrl
 			});
 		}
 
 		//post
 		[HttpPost] //é obrigatório dizer que é post, diferente do get
-		public async Task<IActionResult> Login(LoginViewModel model) {
+		public async Task<IActionResult> Login(LoginViewModel model)
+		{
 			if (!ModelState.IsValid)
 			{
 				return View(model);
@@ -49,15 +51,18 @@ namespace LanchesProj.Controllers
 		}
 
 		//metodo get
-		public IActionResult Register() {
+		public IActionResult Register()
+		{
 
 			return View();
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Register(LoginViewModel model) {
-			if (ModelState.IsValid) {
+		public async Task<IActionResult> Register(LoginViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
 				var user = new IdentityUser { UserName = model.Username };
 				var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -69,7 +74,7 @@ namespace LanchesProj.Controllers
 				{
 					if (result.Succeeded)
 					{
-						await _userManager.AddToRoleAsync(user,"Member");
+						await _userManager.AddToRoleAsync(user, "Member");
 						// Faz o login automaticamente
 						await _signInManager.SignInAsync(user, isPersistent: false);
 
@@ -86,13 +91,19 @@ namespace LanchesProj.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Logout() {
+		public async Task<IActionResult> Logout()
+		{
 			HttpContext.Session.Clear();
 			HttpContext.User = null;
 			await _signInManager.SignOutAsync();
 			return RedirectToAction("Index", "Home");
 		}
 
+
+		public IActionResult AccessDenied()
+		{
+			return View();	
+		}
 
 	}
 }
