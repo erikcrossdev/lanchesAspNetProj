@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LanchesProj.Context;
 using LanchesProj.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LanchesProj.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminLanchesController : Controller
     {
         private readonly AppDbContext _context;

@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LanchesProj.Context;
 using LanchesProj.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LanchesProj.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class AdminPedidosController : Controller
+	[Authorize(Roles = "Admin")]
+	public class AdminPedidosController : Controller
     {
         private readonly AppDbContext _context;
 
