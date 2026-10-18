@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LanchesProj.Context;
 using LanchesProj.Models;
 using Microsoft.AspNetCore.Authorization;
+using ReflectionIT.Mvc.Paging;
 
 namespace LanchesProj.Areas.Admin.Controllers
 {
@@ -22,14 +23,29 @@ namespace LanchesProj.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/AdminPedidos
+		// GET: Admin/AdminPedidos
+		/*
         public async Task<IActionResult> Index()
         {
             return View(await _context.Pedidos.ToListAsync());
-        }
+        }*/
 
-        // GET: Admin/AdminPedidos/Details/5
-        public async Task<IActionResult> Details(int? id)
+		public async Task<IActionResult> Index(string filter, int pageindex=1, string sort = "Nome")
+		{
+			var resultado = _context.Pedidos.AsNoTracking().AsQueryable(); //as queryable converte a coleção para Iquery que só usam quando as fontes forem avaliadas
+            
+            if (!string.IsNullOrEmpty(filter)) 
+            {
+                resultado = resultado.Where(pedido => pedido.Nome.Contains(filter));
+            }
+
+            var model = await PagingList.CreateAsync(resultado, 5, pageindex, sort, "Nome"); //Cria dados paginados com 5 páginas. 
+            model.RouteValue = new RouteValueDictionary { { "filter", filter } }; 
+            return View(model);
+		}
+
+		// GET: Admin/AdminPedidos/Details/5
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {

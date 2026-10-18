@@ -5,6 +5,7 @@ using LanchesProj.Repositories.Interfaces;
 using LanchesProj.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 
 namespace LanchesProj;
 public class Startup
@@ -51,6 +52,11 @@ public class Startup
 		services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp)); //Scoped tem o livetime em toda requisição. Usa o carrinho de compras
 
 		services.AddControllersWithViews();
+
+		services.AddPaging(options => {
+			options.ViewName = "Bootstrap4";
+			options.PageParameterName = "pageindex";
+		});
 
 		services.AddMemoryCache();// Adiciona suporte a cache em memória
 		services.AddSession();// Adiciona suporte a sessão
