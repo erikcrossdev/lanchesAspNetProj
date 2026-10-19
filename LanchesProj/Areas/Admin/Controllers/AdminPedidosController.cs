@@ -9,6 +9,7 @@ using LanchesProj.Context;
 using LanchesProj.Models;
 using Microsoft.AspNetCore.Authorization;
 using ReflectionIT.Mvc.Paging;
+using LanchesProj.ViewModels;
 
 namespace LanchesProj.Areas.Admin.Controllers
 {
@@ -171,6 +172,26 @@ namespace LanchesProj.Areas.Admin.Controllers
         private bool PedidoExists(int id)
         {
             return _context.Pedidos.Any(e => e.PedidoId == id);
+        }
+
+        public IActionResult PedidoLanches(int? id) {
+            var pedido = _context.Pedidos.
+                Include(pedido => pedido.PedidoItens).
+                ThenInclude(lanche => lanche.Lanche).FirstOrDefault(pedido => pedido.PedidoId == id);
+
+            if(pedido == null) 
+            {
+                Response.StatusCode = 404;
+                return View("PedidoNotFound", id.Value);
+            }
+
+            PedidoLancheViewModel pedidoLanches = new PedidoLancheViewModel()
+            {
+                Pedido = pedido,
+                PedidoDetalhe = pedido.PedidoItens
+            };
+
+            return View(pedidoLanches);
         }
     }
 }
