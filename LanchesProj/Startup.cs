@@ -1,4 +1,5 @@
-﻿using LanchesProj.Context;
+﻿using LanchesProj.Areas.Admin.Services;
+using LanchesProj.Context;
 using LanchesProj.Models;
 using LanchesProj.Repositories;
 using LanchesProj.Repositories.Interfaces;
@@ -42,6 +43,7 @@ public class Startup
 		services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //Singleton tem o livetime em toda aplicação. Usa o httpcontext 
 
 		services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+		services.AddScoped<RelatorioVendasService>();
 
 		services.AddAuthorization( options => {
 			options.AddPolicy("Admin", politica => {
