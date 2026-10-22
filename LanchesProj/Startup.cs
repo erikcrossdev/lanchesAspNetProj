@@ -26,6 +26,7 @@ public class Startup
 
 		services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();//para usar login
 
+		services.Configure<ConfigurationImages>(Configuration.GetSection("ConfigurationPastaImagens"));
 		//Importante, Usar valores mais rigidos em prod
 		services.Configure<IdentityOptions>(options =>
 		{
@@ -79,7 +80,7 @@ public class Startup
 			app.UseHsts();
 		}
 		app.UseHttpsRedirection();
-		app.UseStaticFiles();
+		app.UseStaticFiles(); //para armazenar os arquivos com acesso de todos users
 
 		app.UseRouting();
 
