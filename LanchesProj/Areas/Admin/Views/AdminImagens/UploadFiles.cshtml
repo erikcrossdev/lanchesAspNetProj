@@ -1,0 +1,30 @@
+﻿<hr />
+<div class="p-5 rounded-3" style="background-color: #f1f1f1;">
+    <div class="container text-center">
+        @if (ViewData["Erro"] != null)
+        {
+            <img src="~/images/error.png" width="150" class="img-fluid" />
+            <h4 class="mt-3">@ViewData["Erro"]</h4>
+        }
+    </div>
+
+    <div class="container">
+        @if (ViewData["Resultado"] != null)
+        {
+            <!-- Imagem de upload posicionada exatamente como na referência -->
+            <img src="~/images/upload.png" width="100" class="mb-3" />
+            <h4>@ViewData["Resultado"]</h4>
+            <hr />
+            @if (ViewBag.Arquivos != null)
+            {
+                <ul class="list-unstyled">
+                    @foreach (string arquivo in ViewBag.Arquivos)
+                    {
+                        <li>@arquivo</li>
+                    }
+                </ul>
+            }
+        }
+    </div>
+    <a href="@Url.Action("index", "AdminImagens")">Voltar para Gerenciamento de imagens</a>
+</div>
