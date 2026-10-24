@@ -14,7 +14,7 @@ namespace LanchesProj.Areas.Admin.Services
 
 		public List<LancheGrafico> GetVendasLanches(int dias = 360)
 		{
-			var data = DateTime.Now.AddDays(-360);
+			var data = DateTime.Now.AddDays(-dias);
 
 			var lanches = from pedidoDetalhe in _context.PedidoDetalhes //pega pedidos
 						  join lanche in _context.Lanches on pedidoDetalhe.LancheId equals lanche.LancheId //junta dados de lanche e pedido detalhe quando o id bate
