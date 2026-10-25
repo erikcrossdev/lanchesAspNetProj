@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LanchesProj.Areas.Admin.Controllers
 {
+	[Area("Admin")]
 	public class AdminGraficoController : Controller
 	{
 		private readonly GraficoVendasService _graficoVendasService;
