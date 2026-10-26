@@ -30,6 +30,11 @@
 	}
 
 	function DesenharGrafico(dadosJson) {
+		if (!dadosJson || dadosJson.length === 0) {
+			$('#chart_div').html('<p class="text-muted text-center p-4" style="padding-top: 200px;">Nenhum dado de venda encontrado para os últimos 30 dias.</p>');
+			return;
+		}
+
 		var dataArray = [
 			['Lanche', 'Quantidade', 'Valores (R$)']
 		];
@@ -50,6 +55,15 @@
 
 		var options = {
 			title: 'Lanches - Vendas dos últimos 360 dias',
+
+			animation: {
+                duration: 3000,
+                easing: 'out',
+                startup: true
+            },
+
+			curveType: 'function',
+			legend: { position: 'bottom' }, //coloca a legenda em baixo
 			chartArea: {
 				width: '65%'
 			},

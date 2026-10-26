@@ -1,0 +1,73 @@
+﻿<title>
+    @ViewData["Title"] - Grafico de Vendas
+</title>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
+
+<script type="text/javascript">
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(CarregarDados);
+
+    function CarregarDados() {
+        $.ajax({
+            url: '@Url.Action("VendasLanches", "AdminGrafico")',
+            data: { dias: 7 },
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                toastr.error("Erro ao carregar dados do gráfico.");
+            },
+            success: function (resultado) {
+                GraficoVendasLanche(resultado);
+            }
+        });
+    }
+
+    function GraficoVendasLanche(dadosJson) {
+        if (!dadosJson || dadosJson.length === 0) {
+            $('#chart_div').html('<p class="text-muted text-center p-4" style="padding-top: 200px;">Nenhum dado de venda encontrado para os últimos 30 dias.</p>');
+            return;
+        }
+
+        var dataArray = [
+            ['Lanche', 'Quantidade', 'Valores (R$)']
+        ];
+
+        $.each(dadosJson, function (i, item) {
+            var nome = item.lancheNome || item.LancheNome || 'Sem Nome';
+            var quantidadeReal = parseInt(item.lanchesQuantidade || item.LanchesQuantidade) || 0;
+            var valorTotal = parseFloat(item.lanchesValorTotal || item.LanchesValorTotal) || 0;
+
+            dataArray.push([nome, quantidadeReal, valorTotal]);
+        });
+
+        var tabelaDados = google.visualization.arrayToDataTable(dataArray);
+
+        var options = {
+            title: 'Lanches - Vendas dos últimos 7 dias',
+
+            animation: {
+                duration: 3000,
+                easing: 'out',
+                startup: true
+            }, 
+
+            curveType: 'function',
+            legend: {position: 'bottom'},
+            chartArea: { width: '70%' },
+            colors: ['#5202b5', '#d2a828'],
+            hAxis: {
+                title: 'Lanches',
+                minValue: 0
+            },
+            vAxis: {
+                title: 'Valor total em reais '
+            }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(tabelaDados, options);
+    }
+</script>
