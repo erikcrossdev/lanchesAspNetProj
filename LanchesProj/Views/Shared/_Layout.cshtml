@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/LanchesProj.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="d-flex flex-column h-100 bg-light">
 	<header>
 		<!-- Vamos usar o bootstrap com texto light e fundo light-->
 		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
@@ -24,10 +24,9 @@
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-					@await Component.InvokeAsync("CarrinhoCompraResumo") <!-- chamando o componente de view para mostrar o carrinho de compras-->
-					@await Component.InvokeAsync("CategoriaMenu") <!-- chamando o componente de view para mostrar o dropdown de lanches-->
+					@await Component.InvokeAsync("CarrinhoCompraResumo")
+					@await Component.InvokeAsync("CategoriaMenu")
 					<a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-					@*<a class="nav-link text-light" asp-area="" asp-controller="Lanche" asp-action="List">Lanches</a>*@
 					<a class="nav-link text-light" asp-area="" asp-controller="Contato" asp-action="Index">Contato</a>
 					<form class="navbar-form navbar-right" asp-controller="Lanche" asp-action="Search" method="get">
 						<div class="form-group">
@@ -35,29 +34,27 @@
 						</div>
 					</form>
 					@await Html.PartialAsync("_LoginPartial")
-					@if (User.IsInRole("Admin"))					
+					@if (User.IsInRole("Admin"))
 					{
-						//Adiciona link se o user for admin
 						<a class="nav-link text-light" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
-					}					
+					}
 				</div>
 			</div>
 		</nav>
 	</header>
-	<div class="container">
+
+	<!-- Adicionamos 'flex-fill' para o container ocupar o espaço livre e empurrar o footer -->
+	<div class="container flex-fill">
 		<main role="main" class="pb-3">
-			@RenderBody()  <!-- onde são renderizadas as Views-->
+			@RenderBody()
 		</main>
 	</div>
 
-	<footer class="border-top footer text-muted">
-		<div class="container">
-			&copy; 2026 - LanchesProj - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-		</div>
-	</footer>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
+
+	<partial name="_Footer" />
 </body>
 </html>
