@@ -35,33 +35,38 @@
 		];
 
 		$.each(dadosJson, function (i, item) {
-			// Garantindo que sejam números (previne enviar string/null ao Google Charts)
 			var nome = item.lancheNome || 'Sem Nome';
-			var quantidade = parseInt(item.lancheQuantidade) || 0;
+
+			// Multiplicando por 10 para ajustar a escala visual no gráfico de barras
+			var quantidadeReal = parseInt(item.lanchesQuantidade) || 0;
+			var quantidadeEscala = quantidadeReal;
+
 			var valorTotal = parseFloat(item.lanchesValorTotal) || 0;
 
-			dataArray.push([nome, quantidade, valorTotal]);
+			dataArray.push([nome, quantidadeEscala, valorTotal]);
 		});
 
-		// Como o Google Charts já carregou, 'google.visualization' já existe aqui
 		var tabelaDados = google.visualization.arrayToDataTable(dataArray);
 
 		var options = {
 			title: 'Lanches - Vendas dos últimos 360 dias',
 			chartArea: {
-				width: '70%'
+				width: '65%'
 			},
 			colors: ['#5202b5', '#d2a828'],
-			hAxis: {
-				title: 'Valor Total (em Reais)',
-				minValue: 0
+			series: {
+				0: { targetAxisIndex: 0 },
+				1: { targetAxisIndex: 1 }
 			},
+			hAxes: {
+				0: { title: 'Quantidade', minValue: 0 },
+				1: { title: 'Valor Total (R$)', minValue: 0 }
+			}, 
 			vAxis: {
 				title: 'Lanches'
 			}
 		};
 
-		// Instancia e desenha o gráfico no elemento HTML
 		var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
 		chart.draw(tabelaDados, options);
 	}
