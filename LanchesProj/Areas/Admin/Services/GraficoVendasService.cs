@@ -19,7 +19,7 @@ namespace LanchesProj.Areas.Admin.Services
 			var lanches = from pedidoDetalhe in _context.PedidoDetalhes //pega pedidos
 						  join lanche in _context.Lanches on pedidoDetalhe.LancheId equals lanche.LancheId //junta dados de lanche e pedido detalhe quando o id bate
 						  where pedidoDetalhe.Pedido.PedidoEnviado >= data  //seleciona com where se a data for maior ou igual que data
-						  group pedidoDetalhe by new { pedidoDetalhe.LancheId, lanche.Nome, pedidoDetalhe.Quantidade } //agrupa dados de tabelas diferentes, quantidade e id de pedido e name de lanches
+						  group pedidoDetalhe by new { pedidoDetalhe.LancheId, lanche.Nome} //agrupa dados de tabelas diferentes, quantidade e id de pedido e name de lanches
 						  into g  //funciona como uma 'segunda consulta'
 						  select new {  //gera um tipo anonimo, precisamos converter em uma list de LancheGrafico
 							  LancheNome = g.Key.Nome,
