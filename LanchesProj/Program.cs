@@ -41,6 +41,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //Si
 builder.Services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 builder.Services.AddScoped<RelatorioVendasService>();
 builder.Services.AddScoped<GraficoVendasService>();
+builder.Services.AddScoped<RelatorioLanchesService>(); 
 
 builder.Services.AddAuthorization(options => {
 	options.AddPolicy("Admin", politica => {
