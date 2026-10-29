@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReflectionIT.Mvc.Paging;
 using Microsoft.AspNetCore.Http.HttpResults;
+using FastReport.Data;
+using FastReport;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
 			options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+FastReport.Utils.RegisteredObjects.AddConnection(typeof(MsSqlDataConnection));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();//para usar login
 
@@ -84,6 +87,8 @@ app.UseSession();  // Adiciona suporte a sessão
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseFastReport();
 
 #pragma warning disable ASP0014 // Suggest using top level route registrations
 app.UseEndpoints(endpoints =>
