@@ -33,6 +33,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 	options.Password.RequiredUniqueChars = 1;
 });
 
+builder.Services.AddFastReport();
+
 builder.Services.AddTransient<ILancheRepository, LancheRepository>();
 builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
@@ -62,6 +64,8 @@ builder.Services.AddMemoryCache();// Adiciona suporte a cache em memória
 builder.Services.AddSession();// Adiciona suporte a sessão
 
 var app = builder.Build();
+
+app.UseFastReport();
 
 if (app.Environment.IsDevelopment())
 {
