@@ -80,10 +80,21 @@ namespace LanchesProj.Models
 		}
 
 		public List<CarrinhoCompraItem> GetCarrinhoCompraItens() {
+			/*
 			return CarrinhoCompraItens ?? (CarrinhoCompraItens = _context.CarrinhoCompraItens
 				.Where(carrinho => carrinho.CarrinhoCompraId == CarrinhoCompraId)
 				.Include(compraItem=> compraItem.Lanche)
-				.ToList());
+				.ToList());*/
+
+			if (CarrinhoCompraItens != null)
+			{
+				return CarrinhoCompraItens;
+			}
+			else {
+				CarrinhoCompraItens = _context.CarrinhoCompraItens.Where(c => c.CarrinhoCompraId == CarrinhoCompraId)
+					.Include(s => s.Lanche).ToList();
+				return CarrinhoCompraItens;
+			}
 		}
 
 		public void LimparCarrinho() {

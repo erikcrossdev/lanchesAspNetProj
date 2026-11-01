@@ -33,61 +33,81 @@ namespace LanchesProj.Areas.Admin.Controllers
 				ViewData["Erro"] = "Erro: Quantidade de arquivos excedida";
 				return View(ViewData);
 			}
-
-			long size = files.Sum(file => file.Length); //tamanho da imagem
-
-			var filePathsName = new List<string>();
-
-			var filePath = Path.Combine(_hostingEnvironment.WebRootPath, _myConfig.NomePastaImagensProdutos); //combina o caminho físico e wwwroot e a pasta das imagens
-
-			foreach (var formFile in files)
+			try
 			{
-				//checa se são imagens
-				if (formFile.FileName.Contains(".jpg") || formFile.FileName.Contains(".gif")
-					|| formFile.FileName.Contains(".png"))
+				long size = files.Sum(file => file.Length); //tamanho da imagem
+
+				var filePathsName = new List<string>();
+
+				var filePath = Path.Combine(_hostingEnvironment.WebRootPath, _myConfig.NomePastaImagensProdutos); //combina o caminho físico e wwwroot e a pasta das imagens
+
+				foreach (var formFile in files)
 				{
-					var fileNameWithPath = string.Concat(filePath, "\\", formFile.FileName);
-
-					filePathsName.Add(fileNameWithPath);
-
-					using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) 
+					//checa se são imagens
+					if (formFile.FileName.Contains(".jpg") || formFile.FileName.Contains(".gif")
+						|| formFile.FileName.Contains(".png"))
 					{
-						await formFile.CopyToAsync(stream);
+						var fileNameWithPath = string.Concat(filePath, "\\", formFile.FileName);
+
+						filePathsName.Add(fileNameWithPath);
+
+						using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+						{
+							await formFile.CopyToAsync(stream);
+						}
 					}
 				}
+				ViewData["Resultado"] = $"{files.Count} arquivos enviados para o servidor com tamanho total de: {size} bytes";
+
+				ViewBag.Arquivos = filePathsName; //conter a relação de arquivos 
+
+				return View(ViewData);
+			} catch (Exception ex) {
+				ViewData["Erro"] = $"Erro: {ex.Message}";
+				return View(ViewData);
 			}
-			ViewData["Resultado"] = $"{files.Count} arquivos enviados para o servidor com tamanho total de: {size} bytes";
-
-			ViewBag.Arquivos = filePathsName; //conter a relação de arquivos 
-
-			return View(ViewData);
 		}
 
 		public IActionResult GetImagens() {
 			FileManagerModel model = new FileManagerModel();
-			var userImagesPath = Path.Combine(_hostingEnvironment.WebRootPath, _myConfig.NomePastaImagensProdutos);
-
-			DirectoryInfo dir = new DirectoryInfo(userImagesPath);
-
-			FileInfo[] files= dir.GetFiles();
-
-			model.PathImagesProduto = _myConfig.NomePastaImagensProdutos;
-
-			if (files.Length == 0)
+			try
 			{
-				ViewData["Erro"] = $"Nenhum arquivo encontrado na pasta {userImagesPath}";
-			}
+				var userImagesPath = Path.Combine(_hostingEnvironment.WebRootPath, _myConfig.NomePastaImagensProdutos);
 
-			model.Files = files;
+				DirectoryInfo dir = new DirectoryInfo(userImagesPath);
+
+				FileInfo[] files = dir.GetFiles();
+
+				model.PathImagesProduto = _myConfig.NomePastaImagensProdutos;
+
+				if (files.Length == 0)
+				{
+					ViewData["Erro"] = $"Nenhum arquivo encontrado na pasta {userImagesPath}";
+				}
+
+				model.Files = files;		
+			}
+			catch (Exception ex)
+			{
+				ViewData["Erro"] = $"Erro: {ex.Message}";
+			}
 			return View(model);
 		}
 
 		public IActionResult Deletefile(string fname) {
-			string imagemParaDeletar = Path.Combine(_hostingEnvironment.WebRootPath, _myConfig.NomePastaImagensProdutos + "\\", fname);
+			try
+			{
+				string imagemParaDeletar = Path.Combine(_hostingEnvironment.WebRootPath, _myConfig.NomePastaImagensProdutos + "\\", fname);
 
-			if ((System.IO.File.Exists(imagemParaDeletar))) {
-				System.IO.File.Delete(imagemParaDeletar);
-				ViewData["Deletado"] = $"Arquivo(s) {imagemParaDeletar} deletado com sucesso!";
+				if ((System.IO.File.Exists(imagemParaDeletar)))
+				{
+					System.IO.File.Delete(imagemParaDeletar);
+					ViewData["Deletado"] = $"Arquivo(s) {imagemParaDeletar} deletado com sucesso!";
+				}
+			}
+			catch (Exception ex)
+			{
+				ViewData["Erro"] = $"Erro: {ex.Message}";
 			}
 
 			return View("index");
