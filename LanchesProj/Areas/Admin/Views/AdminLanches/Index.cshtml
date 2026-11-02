@@ -97,15 +97,9 @@
 							@Html.DisplayFor(modelItem => item.Categoria.CategoriaNome)
 						</td>
 						<td>
-							<a asp-action="Edit" asp-route-id="@item.LancheId" class="btn btn-warning btn-sm mb-1 d-block">
-								Editar
-							</a> 
-							<a asp-action="Details" asp-route-id="@item.LancheId" class="btn btn-secondary btn-sm mb-1 d-block">
-								Detalhes
-							</a>
-							<a asp-action="Delete" asp-route-id="@item.LancheId" class="btn btn-danger btn-sm d-block">
-								Deletar
-							</a>
+							<a asp-action="Edit" asp-route-id="@item.LancheId" class="btn btn-warning btn-sm mb-1 d-block">Editar</a> 
+							<a asp-action="Details" asp-route-id="@item.LancheId" class="btn btn-secondary btn-sm mb-1 d-block">Detalhes</a>
+							<a asp-action="Delete" asp-route-id="@item.LancheId" class="btn btn-danger btn-sm d-block">Deletar</a>
 						</td>
 					</tr>
 				}

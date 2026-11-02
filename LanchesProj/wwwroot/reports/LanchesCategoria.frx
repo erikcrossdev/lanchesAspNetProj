@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="10/29/2026 14:36:17" ReportInfo.Modified="10/30/2026 15:14:18" ReportInfo.CreatorVersion="2027.1.0.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/29/2026 14:36:17" ReportInfo.Modified="11/02/2026 18:38:44" ReportInfo.CreatorVersion="2027.1.0.0">
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqM7gJFg/iaLrqMhRfGy5lGp/xV3UAXjTK28wTl3Y0WS/yx8AwfyIv467wH726dLGrWKBURGCK8+ZJv9saEU7K4m9FjFMCyQoaVuBhPk45ps49N4ZmtTbSSQRDRwQIqCSVm3MEqGt0+EFmZjisooHHoaWJYB10MZPwj51V9GcePi/q0O62yAdZB1exNbhjDV4epPnc4P5rbF4DMbBIaMeaoPtRCYiz8ZHPEiItw9Ip3yw=">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqM7gJFg/iaLrqMhRfGy5lGp/xV3UAXjTK28wTl3Y0WS/yx8AwfyIv467wH726dLGrWKBURGCK8+ZJv9saEU7K4m9FjFMCyQoaVuBhPk45ps49N4ZmtTbSSQRDRwQIqCSVm3MEqGt0+EFmZjisooHHoaWJYB10MZPwj51V9GcePi/q0O62yAdZB1exNbhjDV4epPnc4P5rbF4DMbBIaMeaoLQs1SY5fp+IriKCvIDbjVI=">
       <TableDataSource Name="Categorias" DataType="System.Int32" Enabled="true" TableName="Categorias">
         <Column Name="CategoriaId" DataType="System.Int32"/>
         <Column Name="CategoriaNome" DataType="System.String"/>

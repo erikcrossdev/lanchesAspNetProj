@@ -9,13 +9,13 @@
 	<hr />
 	var caminho = Model.PathImagesProduto;
 
-	<div class="row-cols-lg-6">
+	<div class="d-flex flex-wrap gap-3 align-items-start">
 		@foreach(FileInfo file in Model.Files)
 		{
-			<div class="column">
-				<img src="~/@caminho/@file.Name" width="125" />
+			<div class="d-flex flex-column align-items-center border p-3 rounded bg-light">
+				<img src="~/@caminho/@file.Name" height="200" />
 				<div style="padding:10px; text-align:center">
-					<a href="@Url.Action("Deletefile", "AdminImagens", new {fname = file.Name})">Deletar</a>
+					<a href="@Url.Action("Deletefile", "AdminImagens", new {fname = file.Name})" class="btn btn-primary btn-sm d-block">Deletar</a>
 				</div>
 			</div>		
 		}
