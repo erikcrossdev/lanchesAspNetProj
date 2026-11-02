@@ -8,27 +8,39 @@
 <!--adiciona barra de pesquisa-->
 <form method="get" class="form-inline">
 	<input name="filter" class="form-control" placeholder="filtro" value="@Model.RouteValue["Filter"]" />
+	<br />
 	<button type="submit" class="btn btn-info">
 		<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Procurar
 	</button>
 </form>
+<br />
 
-Total de Lanches: @Model.TotalRecordCount
+<strong>Total de Lanches: </strong>@Model.TotalRecordCount
 <div>
 	<vc:pager paging-list="@Model"></vc:pager> <!--cria paginador-->
 </div>
 
+<br />
 <div class="row">
 	<div class="col-md-12">
-		<a asp-action="Create">Criar lanches</a> | <a asp-controller="AdminLanchesReport" asp-action="LanchesCategoriasReport">Gerar Relatório</a>
-		| <a asp-controller="AdminLanchesReport" asp-action="LanchesCategoriaPDF">Baixar Relatório em PDF</a>
-		| <a asp-controller="AdminLanchesReport" asp-action="LanchesCategoriaAbrePDF" target="_blank">Abrir Relatório em PDF</a>
+		<a asp-action="Create" class="btn btn-primary">
+			<span class="glyphicon glyphicon-plus" aria-hidden="false"></span> Criar lanches
+		</a>
+		<a asp-controller="AdminLanchesReport" asp-action="LanchesCategoriasReport" class="btn btn-info">
+			<span class="glyphicon glyphicon-file" aria-hidden="false"></span>Gerar Relatório
+		</a>
+		<a asp-controller="AdminLanchesReport" asp-action="LanchesCategoriaPDF" class="btn btn-success">
+			<span class="glyphicon glyphicon-download-alt" aria-hidden="false"></span>Baixar Relatório em PDF
+		</a>
+		<a asp-controller="AdminLanchesReport" asp-action="LanchesCategoriaAbrePDF" target="_blank" class="btn btn-warning">
+			<span class="glyphicon glyphicon-new-window" aria-hidden="false"></span> Abrir Relatório em PDF
+		</a>
 	</div>
 </div>
-
+<br />
 
 <div class="row">
-	<div class="col-md-10">
+	<div class="col-md-15">
 
 		<table class="table">
 			<thead>
@@ -72,7 +84,7 @@ Total de Lanches: @Model.TotalRecordCount
 							@Html.DisplayFor(modelItem => item.DescricaoDetalhada)
 						</td>
 						<td>
-							@Html.DisplayFor(modelItem => item.Preco)
+							@item.Preco.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
 						</td>
 						
 						<td>
@@ -85,9 +97,15 @@ Total de Lanches: @Model.TotalRecordCount
 							@Html.DisplayFor(modelItem => item.Categoria.CategoriaNome)
 						</td>
 						<td>
-							<a asp-action="Edit" asp-route-id="@item.LancheId">Editar</a> |
-							<a asp-action="Details" asp-route-id="@item.LancheId">Detalhes</a> |
-							<a asp-action="Delete" asp-route-id="@item.LancheId">Deletar</a>
+							<a asp-action="Edit" asp-route-id="@item.LancheId" class="btn btn-warning btn-sm mb-1 d-block">
+								Editar
+							</a> 
+							<a asp-action="Details" asp-route-id="@item.LancheId" class="btn btn-secondary btn-sm mb-1 d-block">
+								Detalhes
+							</a>
+							<a asp-action="Delete" asp-route-id="@item.LancheId" class="btn btn-danger btn-sm d-block">
+								Deletar
+							</a>
 						</td>
 					</tr>
 				}

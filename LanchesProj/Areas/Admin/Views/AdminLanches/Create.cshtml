@@ -1,7 +1,7 @@
 @model LanchesProj.Models.Lanche
 
 @{
-	ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create";
 }
 
 <h1>Criar Novo Lanche</h1>
@@ -9,67 +9,169 @@
 <h4>Lanche</h4>
 <hr />
 <div class="row">
-	<div class="col-md-8">
-		<form asp-action="Create">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div class="form-group">
-				<label asp-for="Nome" class="control-label"></label>
-				<input asp-for="Nome" class="form-control" />
-				<span asp-validation-for="Nome" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="DescricaoCurta" class="control-label"></label>
-				<input asp-for="DescricaoCurta" class="form-control" />
-				<span asp-validation-for="DescricaoCurta" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="DescricaoDetalhada" class="control-label"></label>
-				<input asp-for="DescricaoDetalhada" class="form-control" />
-				<span asp-validation-for="DescricaoDetalhada" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Preco" class="control-label"></label>
-				<input asp-for="Preco" class="form-control" />
-				<span asp-validation-for="Preco" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="ImagemUrl" class="control-label"></label>
-				<input asp-for="ImagemUrl" class="form-control" />
-				<span asp-validation-for="ImagemUrl" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="ImagemThumbnailUrl" class="control-label"></label>
-				<input asp-for="ImagemThumbnailUrl" class="form-control" />
-				<span asp-validation-for="ImagemThumbnailUrl" class="text-danger"></span>
-			</div>
-			<br />
-			<br />
-			<div class="row">
-				<div class="form-group col-sm-4">
-					<label class="control-label">Marcar como preferido?</label><br />
-					<label class="form-check-label" style="padding-left: 20px">
-						<input class="form-check-input" asp-for="IsLanchePreferido" /> @Html.DisplayNameFor(model => model.IsLanchePreferido)
-					</label>
-				</div>
-				<div class="form-group col-sm-4">
-					<label class="control-label">Marcar como Em Estoque?</label><br />
-					<label class="form-check-label" style="padding-left: 20px">
-						<input class="form-check-input" asp-for="EmEstoque" /> @Html.DisplayNameFor(model => model.EmEstoque)
-					</label>
-				</div>
-				<div class="form-group col-sm-4">
-					<label asp-for="CategoriaId" class="control-label"></label>
-					<select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
-				</div>
-			</div>
-			<div class="form-group">
-				<input type="submit" value="Create" class="btn btn-primary" />
-			</div>
-		</form>
-	</div>
+    <div class="col-md-8">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="DescricaoCurta" class="control-label"></label>
+                <input asp-for="DescricaoCurta" class="form-control" />
+                <span asp-validation-for="DescricaoCurta" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="DescricaoDetalhada" class="control-label"></label>
+                <input asp-for="DescricaoDetalhada" class="form-control" />
+                <span asp-validation-for="DescricaoDetalhada" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Preco" class="control-label"></label>
+                <input asp-for="Preco" class="form-control" />
+                <span asp-validation-for="Preco" class="text-danger"></span>
+            </div>
+
+            <!-- Imagem Url e Preview -->
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label asp-for="ImagemUrl" class="control-label"></label>
+                    <div class="input-group">
+                        <input asp-for="ImagemUrl" id="ImagemUrlInput" class="form-control" />
+                        <button type="button" class="btn btn-outline-secondary" onclick="abrirModalImagens('ImagemUrlInput', 'previewUrl')">Selecionar...</button>
+                    </div>
+                    <span asp-validation-for="ImagemUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6 text-center">
+                    <img id="previewUrl" src="@Model?.ImagemUrl" style="max-height: 100px;" class="img-thumbnail" />
+                </div>
+            </div>
+
+            <!-- Imagem Thumbnail Url e Preview -->
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label asp-for="ImagemThumbnailUrl" class="control-label"></label>
+                    <div class="input-group">
+                        <input asp-for="ImagemThumbnailUrl" id="ImagemThumbnailUrlInput" class="form-control" />
+                        <button type="button" class="btn btn-outline-secondary" onclick="abrirModalImagens('ImagemThumbnailUrlInput', 'previewThumbnail')">Selecionar...</button>
+                    </div>
+                    <span asp-validation-for="ImagemThumbnailUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6 text-center">
+                    <img id="previewThumbnail" src="@Model?.ImagemThumbnailUrl" style="max-height: 100px;" class="img-thumbnail" />
+                </div>
+            </div>
+
+            <!-- Checkboxs e Categoria -->
+            <div class="row mb-3">
+                <div class="form-group col-sm-4">
+                    <label class="control-label">Marcar como preferido?</label><br />
+                    <label class="form-check-label" style="padding-left: 20px">
+                        <input class="form-check-input" asp-for="IsLanchePreferido" /> @Html.DisplayNameFor(model => model.IsLanchePreferido)
+                    </label>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label class="control-label">Marcar como Em Estoque?</label><br />
+                    <label class="form-check-label" style="padding-left: 20px">
+                        <input class="form-check-input" asp-for="EmEstoque" /> @Html.DisplayNameFor(model => model.EmEstoque)
+                    </label>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label asp-for="CategoriaId" class="control-label"></label>
+                    <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
 
 <div>
-	<a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
+<!-- Modal de Seleção de Imagens do Servidor -->
+<div class="modal fade" id="modalGerenciadorImagens" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Selecione uma Imagem do Servidor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="listaImagensServidor" class="row g-3">
+                    <p class="text-muted">Carregando imagens...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let inputAlvoId = '';
+        let previewAlvoId = '';
+
+        function abrirModalImagens(inputId, previewId) {
+            inputAlvoId = inputId;
+            previewAlvoId = previewId;
+
+            var meuModal = new bootstrap.Modal(document.getElementById('modalGerenciadorImagens'));
+            meuModal.show();
+
+            // Chamada correta considerando a Area Admin
+            fetch('/Admin/AdminImagens/GetImagensJson')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('listaImagensServidor');
+                    container.innerHTML = '';
+
+                    if (!data.files || data.files.length === 0) {
+                        container.innerHTML = '<p class="text-danger">Nenhuma imagem encontrada na pasta.</p>';
+                        return;
+                    }
+
+                    data.files.forEach(file => {
+                        const caminhoRelativo = `${data.path}/${file}`;
+
+                        const col = document.createElement('div');
+                        col.className = 'col-md-3 text-center';
+                        col.innerHTML = `
+                                    <div class="card p-2 shadow-sm h-100" style="cursor: pointer;" onclick="selecionarImagem('${caminhoRelativo}')">
+                                        <img src="/${caminhoRelativo}" class="card-img-top img-thumbnail" style="height: 100px; object-fit: cover;" />
+                                        <div class="card-body p-1">
+                                            <small class="text-muted text-truncate d-block">${file}</small>
+                                        </div>
+                                    </div>
+                                `;
+                        container.appendChild(col);
+                    });
+                })
+                .catch(error => {
+                    console.error("Erro ao carregar imagens:", error);
+                    document.getElementById('listaImagensServidor').innerHTML = '<p class="text-danger">Erro ao carregar imagens do servidor.</p>';
+                });
+        }
+
+        function selecionarImagem(caminhoCompleto) {
+            document.getElementById(inputAlvoId).value = caminhoCompleto;
+
+            const preview = document.getElementById(previewAlvoId);
+            if (preview) {
+                preview.src = '/' + caminhoCompleto;
+            }
+
+            var modalEl = document.getElementById('modalGerenciadorImagens');
+            var modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+        }
+    </script>
+}

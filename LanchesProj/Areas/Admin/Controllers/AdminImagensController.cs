@@ -1,6 +1,5 @@
 ﻿using LanchesProj.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -97,7 +96,7 @@ namespace LanchesProj.Areas.Admin.Controllers
 		public IActionResult Deletefile(string fname) {
 			try
 			{
-				string imagemParaDeletar = Path.Combine(_hostingEnvironment.WebRootPath, _myConfig.NomePastaImagensProdutos + "\\", fname);
+				string imagemParaDeletar = Path.Combine(_hostingEnvironment.WebRootPath, _myConfig.NomePastaImagensProdutos, fname);
 
 				if ((System.IO.File.Exists(imagemParaDeletar)))
 				{
@@ -111,6 +110,33 @@ namespace LanchesProj.Areas.Admin.Controllers
 			}
 
 			return View("index");
+		}
+
+		[HttpGet]
+		public IActionResult GetImagensJson() {
+			try {
+				var userImagespath = Path.Combine(_hostingEnvironment.WebRootPath, _myConfig.NomePastaImagensProdutos);
+
+				if (!Directory.Exists(userImagespath))
+				{
+					return Json(new { files = new string[0], path = _myConfig.NomePastaImagensProdutos });
+				}
+
+				DirectoryInfo dir = new DirectoryInfo(userImagespath);
+				FileInfo[] files = dir.GetFiles();
+
+				var filesName = files.Select(file => file.Name).ToArray();
+
+
+				return Json(new
+				{
+					files = filesName,
+					path = _myConfig.NomePastaImagensProdutos
+				});
+			
+			} catch (Exception ex) { 
+				return BadRequest(new {error = ex.Message});
+			}
 		}
 	}
 }

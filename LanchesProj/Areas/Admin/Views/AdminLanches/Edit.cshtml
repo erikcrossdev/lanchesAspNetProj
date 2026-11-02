@@ -4,82 +4,187 @@
 	ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Editar Lanche</h1>
 
 <h4>Lanche</h4>
 <hr />
 <div class="row">
 	<!--<div class="col-md-6">-->
-		<form asp-action="Edit">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<input type="hidden" asp-for="LancheId" />
-			<div class="form-group">
-				<label asp-for="Nome" class="control-label"></label>
-				<input asp-for="Nome" class="form-control" />
-				<span asp-validation-for="Nome" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="DescricaoCurta" class="control-label"></label>
-				<input asp-for="DescricaoCurta" class="form-control" />
-				<span asp-validation-for="DescricaoCurta" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="DescricaoDetalhada" class="control-label"></label>
-				<input asp-for="DescricaoDetalhada" class="form-control" />
-				<span asp-validation-for="DescricaoDetalhada" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Preco" class="control-label"></label>
-				<input asp-for="Preco" class="form-control" />
-				<span asp-validation-for="Preco" class="text-danger"></span>
-			</div>
-			<div class="row">
-				<div class="form-group col-md-6">
-					<label asp-for="ImagemUrl" class="control-label"></label>
-					<input asp-for="ImagemUrl" class="form-control" />
-					<span asp-validation-for="ImagemUrl" class="text-danger"></span>
+	<form asp-action="Edit">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<input type="hidden" asp-for="LancheId" />
+		<div class="form-group">
+			<label asp-for="Nome" class="control-label"></label>
+			<input asp-for="Nome" class="form-control" />
+			<span asp-validation-for="Nome" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="DescricaoCurta" class="control-label"></label>
+			<input asp-for="DescricaoCurta" class="form-control" />
+			<span asp-validation-for="DescricaoCurta" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="DescricaoDetalhada" class="control-label"></label>
+			<input asp-for="DescricaoDetalhada" class="form-control" />
+			<span asp-validation-for="DescricaoDetalhada" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Preco" class="control-label"></label>
+			<input asp-for="Preco" class="form-control" />
+			<span asp-validation-for="Preco" class="text-danger"></span>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label asp-for="ImagemUrl" class="control-label"></label>
+				<div class="input-group">
+					<input asp-for="ImagemUrl" class="form-control" id="ImagemUrlInput" />
+					<button type="button" class="btn btn-outline-secondary" onclick="abrirModalImagens('ImagemUrlInput', 'previewUrl')">Selecionar...</button>
 				</div>
-				<div class="form-group col-md-6">
-					<img src="@Model.ImagemUrl" />
-				</div>
+				<span asp-validation-for="ImagemUrl" class="text-danger"></span>
 			</div>
-			<div class="row">
-				<div class="form-group col-md-6">
-					<label asp-for="ImagemThumbnailUrl" class="control-label"></label>
-					<input asp-for="ImagemThumbnailUrl" class="form-control" />
-					<span asp-validation-for="ImagemThumbnailUrl" class="text-danger"></span>
-				</div>
-				<div class="form-group col-md-6">
-					<img src="@Model.ImagemThumbnailUrl" />
-				</div>
+			<div class="form-group col-md-6">
+				<img id="previewUrl" src="/@Model?.ImagemUrl" style="max-height: 100px;" />
 			</div>
-			<div class="row">
-				<div class="form-group col-sm-4">
-					<label class="control-label">Marcar como preferido?</label><br />
-					<label class="form-check-label" style="padding-left: 20px">
-						<input class="form-check-input" asp-for="IsLanchePreferido" /> @Html.DisplayNameFor(model => model.IsLanchePreferido)
-					</label>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label asp-for="ImagemThumbnailUrl" class="control-label"></label>
+				<div class="input-group">
+					<input asp-for="ImagemThumbnailUrl" class="form-control" id="ImagemThumbnailUrlInput" />
+					<button type="button" class="btn btn-outline-secondary" onclick="abrirModalImagens('ImagemThumbnailUrlInput', 'previewThumbnail')">Selecionar...</button>
 				</div>
-				<div class="form-group col-sm-4">
-					<label class="control-label">Marcar como Em Estoque?</label><br />
-					<label class="form-check-label" style="padding-left: 20px">
-						<input class="form-check-input" asp-for="EmEstoque" /> @Html.DisplayNameFor(model => model.EmEstoque)
-					</label>
-				</div>
-				<div class ="form-group col-sm-4">
-					<label asp-for="CategoriaId" class="control-label">Categoria</label>
-					<select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
-					<span asp-validation-for="CategoriaId" class="text-danger"></span>
-				</div>
+				<span asp-validation-for="ImagemThumbnailUrl" class="text-danger"></span>
 			</div>
-			<div class="form-group">
-				<input type="submit" value="Save" class="btn btn-primary" />
+			<div class="form-group col-md-6">
+				<img id="previewThumbnail" src="/@Model?.ImagemThumbnailUrl" style="max-height: 100px;" />
 			</div>
-		</form>
-	</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-4">
+				<label class="control-label">Marcar como preferido?</label><br />
+				<label class="form-check-label" style="padding-left: 20px">
+					<input class="form-check-input" asp-for="IsLanchePreferido" /> @Html.DisplayNameFor(model => model.IsLanchePreferido)
+				</label>
+			</div>
+			<div class="form-group col-sm-4">
+				<label class="control-label">Marcar como Em Estoque?</label><br />
+				<label class="form-check-label" style="padding-left: 20px">
+					<input class="form-check-input" asp-for="EmEstoque" /> @Html.DisplayNameFor(model => model.EmEstoque)
+				</label>
+			</div>
+			<div class="form-group col-sm-4">
+				<label asp-for="CategoriaId" class="control-label">Categoria</label>
+				<select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
+				<span asp-validation-for="CategoriaId" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Save" class="btn btn-primary" />
+		</div>
+	</form>
+</div>
 <!--</div>-->
 
 <div>
 	<a asp-action="Index">Back to List</a>
 </div>
+
+<div class="modal fade" id="modalGerenciadorImagens" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalLabel">Selecionar uma Imagem do Servidor</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div id="listaImagensServidor" class="row g-3">
+					<!-- As imagens serão injetadas aqui via AJAX -->
+					<p class="text-muted">Carregando imagens...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		(function () {
+			let inputAlvoId = '';
+			let previewAlvoId = '';
+
+			window.abrirModalImagens = function (inputId, previewId) {
+				inputAlvoId = inputId;
+				previewAlvoId = previewId;
+
+				const modalElement = document.getElementById('modalGerenciadorImagens');
+				var meuModal = bootstrap.Modal.getOrCreateInstance(modalElement);
+				meuModal.show();
+
+				fetch('/Admin/AdminImagens/GetImagensJson')
+					.then(response => response.json())
+					.then(data => {
+						const container = document.getElementById('listaImagensServidor');
+						container.innerHTML = '';
+
+						if (!data.files || data.files.length === 0) {
+							container.innerHTML = '<p class="text-danger">Nenhuma imagem encontrada na pasta.</p>';
+							return;
+						}
+
+						data.files.forEach(file => {
+							const caminhoRelativo = `${data.path}/${file}`;
+
+							const colDiv = document.createElement('div');
+							colDiv.className = 'col-md-3 text-center';
+
+							const card = document.createElement('div');
+							card.className = 'card p-2 shadow-sm h-100';
+							card.style.cursor = 'pointer';
+							card.onclick = function () {
+								window.selecionarImagem(caminhoRelativo);
+							};
+
+							const img = document.createElement('img');
+							img.src = '/' + caminhoRelativo;
+							img.className = 'card-img-top img-thumbnail';
+							img.style.height = '100px';
+							img.style.objectFit = 'cover';
+
+							const cardBody = document.createElement('div');
+							cardBody.className = 'card-body p-1';
+
+							const small = document.createElement('small');
+							small.className = 'text-muted text-truncate d-block';
+							small.innerText = file;
+
+							cardBody.appendChild(small);
+							card.appendChild(img);
+							card.appendChild(cardBody);
+							colDiv.appendChild(card);
+							container.appendChild(colDiv);
+						});
+					})
+					.catch(error => {
+						console.error("Erro ao carregar imagens:", error);
+						document.getElementById('listaImagensServidor').innerHTML = '<p class="text-danger">Erro ao carregar imagens do servidor.</p>';
+					});
+			};
+
+			window.selecionarImagem = function (caminhoCompleto) {
+				document.getElementById(inputAlvoId).value = caminhoCompleto;
+
+				const preview = document.getElementById(previewAlvoId);
+				if (preview) {
+					preview.src = '/' + caminhoCompleto;
+				}
+
+				var modalEl = document.getElementById('modalGerenciadorImagens');
+				var modal = bootstrap.Modal.getInstance(modalEl);
+				if (modal) {
+					modal.hide();
+				}
+			};
+		})();
+	</script>
+}
 
